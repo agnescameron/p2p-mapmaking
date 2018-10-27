@@ -157,7 +157,7 @@ window.addEventListener('load', function() {
                         image.onload = function() {
                             var index = importMapHandler.images.length;
 
-                            importMapHandler.lastImageURL = map.src;
+                            importMapHandler.lastImageURL = image.src;
                             importMapHandler.lastImageIndex = index;
 
                             importMapHandler.images.push(image);
@@ -600,12 +600,12 @@ window.addEventListener('load', function() {
     function decorateImportMap() {
         var context = getContext('importMap-icon');
 
-        var map = new Map();
-        map.onload = function() {
-            context.drawImage(map, 4, 4, 32, 32);
+        var image = new Image();
+        image.onload = function() {
+            context.drawImage(image, 4, 4, 32, 32);
             bindEvent(context, 'ImportMap');
         }
-        map.src = data_uris.importMap;
+        image.src = data_uris.importMap;
     }
 
     if (tools.importMap === true) {

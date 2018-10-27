@@ -149,7 +149,7 @@ var drawHelper = {
 
         context.drawImage(image, point[1], point[2], point[3], point[4]);
         pdfHandler.reset_pos(point[1], point[2]);
-    },    
+    },
     pdf: function(context, point, options) {
         this.handleOptions(context, options, true);
 
