@@ -145,6 +145,32 @@ window.addEventListener('load', function() {
                 });
             }
 
+            if (this.id === 'importMap-icon') {
+                var selector = new FileSelector();
+                selector.accept = 'image/*';
+                selector.selectSingleFile(function(file) {
+                    if (!file) return;
+
+                    var reader = new FileReader();
+                    reader.onload = function(event) {
+                        var image = new Image();
+                        image.onload = function() {
+                            var index = importMapHandler.images.length;
+
+                            importMapHandler.lastImageURL = map.src;
+                            importMapHandler.lastImageIndex = index;
+
+                            importMapHandler.images.push(image);
+                            importMapHandler.load(image.clientWidth, image.clientHeight);
+                        };
+                        image.style = 'position: absolute; top: -99999999999; left: -999999999;'
+                        document.body.appendChild(image);
+                        image.src = event.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
             if (this.id === 'pdf-icon') {
                 var selector = new FileSelector();
                 selector.selectSingleFile(function(file) {
@@ -574,12 +600,12 @@ window.addEventListener('load', function() {
     function decorateImportMap() {
         var context = getContext('importMap-icon');
 
-        var image = new Image();
-        image.onload = function() {
-            context.drawImage(image, 4, 4, 32, 32);
+        var map = new Map();
+        map.onload = function() {
+            context.drawImage(map, 4, 4, 32, 32);
             bindEvent(context, 'ImportMap');
         }
-        image.src = data_uris.importMap;
+        map.src = data_uris.importMap;
     }
 
     if (tools.importMap === true) {

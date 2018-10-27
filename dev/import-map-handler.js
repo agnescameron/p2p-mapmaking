@@ -1,6 +1,6 @@
 var importMapHandler = {
-    lastMapURL: null,
-    lastMapIndex: 0,
+    lastImageURL: null,
+    lastImageIndex: 0,
     images: [],
 
     ismousedown: false,
@@ -8,7 +8,7 @@ var importMapHandler = {
     prevY: 0,
     load: function(width, height) {
         var t = importMapHandler;
-        points[points.length] = ['image', [importMapHandler.lastMapURL, t.prevX, t.prevY, width, height, importMapHandler.lastMapIndex], drawHelper.getOptions()];
+        points[points.length] = ['image', [importMapHandler.lastImageURL, t.prevX, t.prevY, width, height, importMapHandler.lastImageIndex], drawHelper.getOptions()];
         document.getElementById('drag-last-path').click();
 
         // share to webrtc
@@ -31,7 +31,7 @@ var importMapHandler = {
 
         var t = this;
         if (t.ismousedown) {
-            points[points.length] = ['image', [importMapHandler.lastMapURL, t.prevX, t.prevY, x - t.prevX, y - t.prevY, importMapHandler.lastMapIndex], drawHelper.getOptions()];
+            points[points.length] = ['image', [importMapHandler.lastImageURL, t.prevX, t.prevY, x - t.prevX, y - t.prevY, importMapHandler.lastImageIndex], drawHelper.getOptions()];
 
             t.ismousedown = false;
         }
@@ -45,7 +45,7 @@ var importMapHandler = {
         if (t.ismousedown) {
             tempContext.clearRect(0, 0, innerWidth, innerHeight);
 
-            drawHelper.image(tempContext, [importMapHandler.lastMapURL, t.prevX, t.prevY, x - t.prevX, y - t.prevY, importMapHandler.lastMapIndex]);
+            drawHelper.image(tempContext, [importMapHandler.lastImageURL, t.prevX, t.prevY, x - t.prevX, y - t.prevY, importMapHandler.lastImageIndex]);
         }
     }
 };

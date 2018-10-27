@@ -143,7 +143,7 @@ var drawHelper = {
                 mapHandler.images.push(image);
                 context.drawImage(image, point[1], point[2], point[3], point[4]);
             };
-            image.src = point[0];
+            image.src = poin[0];
             return;
         }
 

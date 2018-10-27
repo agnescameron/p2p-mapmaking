@@ -785,16 +785,16 @@
         map: function(context, point, options) {
             this.handleOptions(context, options, true);
 
-            var image = mapHandler.maps[point[5]];
+            var image = importMapHandler.images[point[5]];
             if (!image) {
-                var map = new MapCanvas();
+                var image = new MapCanvas();
                 image.onload = function() {
-                    var index = imageHandler.images.length;
+                    var index = importMapHandler.images.length;
 
-                    mapHandler.lastMapURL = image.src;
-                    mapHandler.lastMapIndex = index;
+                    importMapHandler.lastImageURL = image.src;
+                    importMapHandler.lastImageIndex = index;
 
-                    mapHandler.images.push(image);
+                    importMapHandler.images.push(image);
                     context.drawImage(image, point[1], point[2], point[3], point[4]);
                 };
                 image.src = point[0];
@@ -2570,6 +2570,59 @@
         }
     };
 
+
+    var importMapHandler = {
+        lastImageURL: null,
+        lastImageIndex: 0,
+        images: [],
+
+        ismousedown: false,
+        prevX: 0,
+        prevY: 0,
+        load: function(width, height) {
+            var t = importMapHandler;
+            points[points.length] = ['image', [importMapHandler.lastImageURL, t.prevX, t.prevY, width, height, importMapHandler.lastImageIndex], drawHelper.getOptions()];
+            document.getElementById('drag-last-path').click();
+
+            // share to webrtc
+            syncPoints(true);
+        },
+        mousedown: function(e) {
+            var x = e.pageX - canvas.offsetLeft,
+                y = e.pageY - canvas.offsetTop;
+
+            var t = this;
+
+            t.prevX = x;
+            t.prevY = y;
+
+            t.ismousedown = true;
+        },
+        mouseup: function(e) {
+            var x = e.pageX - canvas.offsetLeft,
+                y = e.pageY - canvas.offsetTop;
+
+            var t = this;
+            if (t.ismousedown) {
+                points[points.length] = ['image', [importMapHandler.lastImageURL, t.prevX, t.prevY, x - t.prevX, y - t.prevY, importMapHandler.lastImageIndex], drawHelper.getOptions()];
+
+                t.ismousedown = false;
+            }
+
+        },
+        mousemove: function(e) {
+            var x = e.pageX - canvas.offsetLeft,
+                y = e.pageY - canvas.offsetTop;
+
+            var t = this;
+            if (t.ismousedown) {
+                tempContext.clearRect(0, 0, innerWidth, innerHeight);
+
+                drawHelper.image(tempContext, [importMapHandler.lastImageURL, t.prevX, t.prevY, x - t.prevX, y - t.prevY, importMapHandler.lastImageIndex]);
+            }
+        }
+    };
+
     var pdfHandler = {
         lastPdfURL: null,
         lastIndex: 0,
@@ -2936,21 +2989,29 @@
 
                 if (this.id === 'importMap-icon') {
                     var selector = new FileSelector();
+                    selector.accept = 'image/*';
                     selector.selectSingleFile(function(file) {
                         if (!file) return;
 
-                        function onGettingMap() {
-                            var reader = new FileReader();
-                            reader.onload = function(event) {
-                                importMapHandler.pdf = null; // to make sure we call "getDocument" again
-                                importMapHandler.load(event.target.result);
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                        onGettingPdf();
-                    }, null, 'application/pdf');
-                }
+                        var reader = new FileReader();
+                        reader.onload = function(event) {
+                            var image = new Image();
+                            image.onload = function() {
+                                var index = importMapHandler.images.length;
 
+                                importMapHandler.lastImageURL = image.src;
+                                importMapHandler.lastImageIndex = index;
+
+                                importMapHandler.images.push(image);
+                                importMapHandler.load(image.clientWidth, image.clientHeight);
+                            };
+                            image.style = 'position: absolute; top: -99999999999; left: -999999999;'
+                            document.body.appendChild(image);
+                            image.src = event.target.result;
+                        };
+                        reader.readAsDataURL(file);
+                    });
+                }
 
                 if (this.id === 'pdf-icon') {
                     var selector = new FileSelector();
