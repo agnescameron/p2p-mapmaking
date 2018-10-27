@@ -50,6 +50,9 @@ function CanvasDesigner() {
         text: null,
         image: null,
         pdf: null,
+        pdf_next: null,
+        pdf_prev: null,
+        pdf_close: null,
         marker: null,
         zoom: null,
         lineWidth: null,
@@ -114,8 +117,17 @@ function CanvasDesigner() {
 
     designer.uid = getRandomString();
 
-    designer.appendTo = function(parentNode) {
+    designer.appendTo = function(parentNode, callback) {
+        callback = callback || function() {};
+
         designer.iframe = document.createElement('iframe');
+        
+        // designer load callback
+        designer.iframe.onload = function() {
+            callback();
+            callback = null;
+        };
+
         designer.iframe.src = designer.widgetHtmlURL + '?widgetJsURL=' + designer.widgetJsURL + '&tools=' + JSON.stringify(tools) + '&selectedIcon=' + selectedIcon + '&icons=' + JSON.stringify(designer.icons);
         designer.iframe.style.width = '100%';
         designer.iframe.style.height = '100%';

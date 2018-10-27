@@ -306,6 +306,8 @@ designer.icons = {
     text: '/icons/text.png',
     image: '/icons/image.png',
     pdf: '/icons/pdf.png',
+    pdf_next: '/icons/pdf-next.png',
+    pdf_prev: '/icons/pdf-prev.png',
     marker: '/icons/marker.png',
     zoom: '/icons/zoom.png',
     lineWidth: '/icons/lineWidth.png',
@@ -329,6 +331,11 @@ CanvasDesigner is a widget; that widget should be appended to a DOM object. This
 
 ```javascript
 designer.appendTo(document.body || document.documentElement);
+
+// or
+designer.appendTo(document.body || document.documentElement, function() {
+    alert('iframe load callback');
+});
 ```
 
 The correct name for `appendTo` is: `append-iframe to target HTML-DOM-element`

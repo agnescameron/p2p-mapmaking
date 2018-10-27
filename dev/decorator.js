@@ -91,7 +91,7 @@ window.addEventListener('load', function() {
         }
 
         addEvent(context.canvas, 'click', function() {
-            pdfHandler.pdfPageContainer.style.display = 'none';
+            // pdfHandler.pdfPageContainer.style.display = 'none';
 
             if (textHandler.text.length) {
                 textHandler.appendPoints();

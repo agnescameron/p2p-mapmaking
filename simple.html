@@ -5,8 +5,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0, user-scalable=no">
 
-	<title>Canvas Designer supporting Collaboration | HTML5, WebRTC</title>
-	<meta name="description" content="HTML5 Canvas Designer ® Muaz Khan – A tool aimed to give you a full-fledged drawing surface and also auto generate appropriate code for you in different formats! Generator/Tool/Editor – 2D API/Context">
+	<title>Canvas Designer Simple Demo</title>
+	<meta name="description" content="HTML5 Canvas Designer Simple Demo">
 
 	<meta name="author" content="Muaz Khan">
 	<link rel="author" type="text/html" href="https://plus.google.com/+MuazKhan">
@@ -188,9 +188,6 @@ div#comments-popup {
     <input type="checkbox" id="marker" checked>
     <label for="marker">marker</label><br>
 
-    <input type="checkbox" id="importMap" checked>
-    <label for="importMap">import map</label><br>
-
     <input type="checkbox" id="eraser" checked>
     <label for="eraser">eraser</label><br>
 
@@ -244,22 +241,6 @@ div#comments-popup {
 
     <input type="checkbox" id="code" checked>
     <label for="code">code</label><br><br>
-
-    <hr>
-    <div>
-        Number of users connected with you: <b id="number-of-connected-users">0</b>
-
-        <br><br>
-
-        <div id="hide-on-datachannel-opened">
-            You can open a private WebRTC room to sync dashboard with private users.
-
-            <br><br>
-
-            <input type="text" id="room-id" placeholder="room-id">
-            <button id="open-room">Open</button>
-        </div>
-    </div>
 
     <hr>
     <h2>Shortcut Keys</h2>
@@ -350,40 +331,16 @@ div#comments-popup {
 </div>
 
 <script>
-document.getElementById('room-id').onkeyup = document.getElementById('room-id').onblur = function() {
-    localStorage.setItem('canvas-designer-roomid', this.value);
-};
-
-if (localStorage.getItem('canvas-designer-roomid')) {
-    document.getElementById('room-id').value = localStorage.getItem('canvas-designer-roomid');
-}
-
-document.getElementById('open-room').onclick = function() {
-    var roomid = document.getElementById('room-id').value;
-    if (!roomid.length) return alert('Please enter roomid.');
-
-    this.disabled = true;
-
-    connection.open(roomid, onOpenRoom);
-
-    this.parentNode.innerHTML = '<a href="#' + roomid + '" target="_blank">Please share this link</a>';
-};
-
 var designer = new CanvasDesigner();
 
 // you can place widget.html anywhere
 designer.widgetHtmlURL = 'widget.html';
 designer.widgetJsURL = 'widget.min.js'
 
-designer.addSyncListener(function(data) {
-    connection.send(data);
-});
-
 designer.setSelected('pencil');
 
 designer.setTools({
     pencil: true,
-    importMap: true,
     text: true,
     image: true,
     pdf: true,
@@ -410,10 +367,6 @@ designer.appendTo(document.getElementById('widget-container'));
 Array.prototype.slice.call(document.getElementById('action-controls').querySelectorAll('input[type=checkbox]')).forEach(function(checkbox) {
     checkbox.onchange = function() {
         designer.destroy();
-
-        designer.addSyncListener(function(data) {
-            connection.send(data);
-        });
 
         var tools = {};
         Array.prototype.slice.call(document.getElementById('action-controls').querySelectorAll('input[type=checkbox]')).forEach(function(checkbox2) {
@@ -560,103 +513,6 @@ document.getElementById('btn-comments').onclick = showCommentsPopup;
 if (location.hash.length && location.hash.indexOf('comment') !== -1) {
     showCommentsPopup();
 }
-</script>
-
-<script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
-<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
-
-<script>
-var connection = new RTCMultiConnection();
-
-connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/';
-connection.socketMessageEvent = 'canvas-designer';
-
-connection.enableFileSharing = false;
-connection.session = {
-    audio: true,
-    video: true,
-    data: true
-};
-connection.sdpConstraints.mandatory = {
-    OfferToReceiveAudio: true,
-    OfferToReceiveVideo: true
-};
-connection.dontCaptureUserMedia = true;
-if (location.hash.replace('#', '').length) {
-    var roomid = location.hash.replace('#', '');
-    connection.join(roomid);
-}
-
-connection.onUserStatusChanged = function(event) {
-    var infoBar = document.getElementById('hide-on-datachannel-opened');
-    if (event.status == 'online') {
-        infoBar.innerHTML = event.userid + ' is <b>online</b>.';
-    }
-
-    if (event.status == 'offline') {
-        infoBar.innerHTML = event.userid + ' is <b>offline</b>.';
-    }
-
-    numberOfConnectedUsers.innerHTML = connection.getAllParticipants().length;
-};
-
-var numberOfConnectedUsers = document.getElementById('number-of-connected-users');
-connection.onopen = function(event) {
-    var infoBar = document.getElementById('hide-on-datachannel-opened');
-    infoBar.innerHTML = '<b>' + event.userid + '</b> is ready to collaborate with you.';
-
-    if (designer.pointsLength <= 0) {
-        // make sure that remote user gets all drawings synced.
-        setTimeout(function() {
-            connection.send('plz-sync-points');
-        }, 1000);
-    }
-
-    numberOfConnectedUsers.innerHTML = connection.getAllParticipants().length;
-};
-
-connection.onclose = connection.onerror = connection.onleave = function() {
-    numberOfConnectedUsers.innerHTML = connection.getAllParticipants().length;
-};
-
-connection.onmessage = function(event) {
-    if (event.data === 'plz-sync-points') {
-        designer.sync();
-        return;
-    }
-
-    designer.syncData(event.data);
-};
-</script>
-
-<script src="dev/webrtc-handler.js"></script>
-<script>
-function onOpenRoom() {
-    // capture canvas-2d stream
-    // and share in realtime using RTCPeerConnection.addStream
-    // requires: dev/webrtc-handler.js
-    designer.captureStream(function(stream) {
-        connection.attachStreams = [stream];
-        connection.onstream({
-            stream: stream
-        });
-    });
-}
-
-var video = document.querySelector('video');
-
-connection.onstream = function(event) {
-    if (connection.isInitiator && event.mediaElement) return;
-
-    video.style.display = '';
-    video.src = URL.createObjectURL(event.stream);
-    video.play();
-};
-
-connection.onstreamended = function() {
-    video.src = null;
-    video.style.display = 'none';
-};
 </script>
 
 <script src="https://cdn.webrtc-experiment.com/common.js" async></script>
