@@ -1,6 +1,7 @@
 var is = {
     isLine: false,
     isArrow: false,
+    isImportMap: false,
     isArc: false,
     isDragLastPath: false,
     isDragAllPaths: false,
@@ -17,7 +18,7 @@ var is = {
     set: function(shape) {
         var cache = this;
 
-        cache.isLine = cache.isArrow = cache.isArc = cache.isDragLastPath = cache.isDragAllPaths = cache.isRectangle = cache.isQuadraticCurve = cache.isBezierCurve = cache.isPencil = cache.isMarker = cache.isEraser = cache.isText = cache.isImage = cache.isPdf = false;
+        cache.isLine = cache.isImportMap = cache.isArrow = cache.isArc = cache.isDragLastPath = cache.isDragAllPaths = cache.isRectangle = cache.isQuadraticCurve = cache.isBezierCurve = cache.isPencil = cache.isMarker = cache.isEraser = cache.isText = cache.isImage = cache.isPdf = false;
         cache['is' + shape] = true;
     }
 };

@@ -1,6 +1,7 @@
 var tools = {
     line: true,
     arrow: true,
+    importMap: true,
     pencil: true,
     marker: true,
     dragSingle: true,
@@ -566,6 +567,24 @@ window.addEventListener('load', function() {
     if (tools.image === true) {
         decorateImage();
         document.getElementById('image-icon').style.display = 'block';
+    }
+
+
+
+    function decorateImportMap() {
+        var context = getContext('importMap-icon');
+
+        var image = new Image();
+        image.onload = function() {
+            context.drawImage(image, 4, 4, 32, 32);
+            bindEvent(context, 'ImportMap');
+        }
+        image.src = data_uris.importMap;
+    }
+
+    if (tools.importMap === true) {
+        decorateImportMap();
+        document.getElementById('importMap-icon').style.display = 'block';
     }
 
 

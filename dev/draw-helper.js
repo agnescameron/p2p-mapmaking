@@ -128,6 +128,28 @@ var drawHelper = {
 
         context.drawImage(image, point[1], point[2], point[3], point[4]);
     },
+    importMap: function(context, point, options) {
+        this.handleOptions(context, options, true);
+
+        var image = mapHandler.images[point[5]];
+        if (!image) {
+            var image = new Image();
+            image.onload = function() {
+                var index = imageHandler.images.length;
+
+                mapHandler.lastPage = image.src;
+                mapHandler.lastIndex = index;
+
+                mapHandler.images.push(image);
+                context.drawImage(image, point[1], point[2], point[3], point[4]);
+            };
+            image.src = point[0];
+            return;
+        }
+
+        context.drawImage(image, point[1], point[2], point[3], point[4]);
+        pdfHandler.reset_pos(point[1], point[2]);
+    },    
     pdf: function(context, point, options) {
         this.handleOptions(context, options, true);
 
