@@ -64,7 +64,7 @@ input {
 
 .extra-controls {
     position: fixed;
-    right: 21%;
+    right: 2%;
 }
 
 #room-id {
@@ -174,11 +174,11 @@ div#comments-popup {
 }
 </style>
 
-<div id="widget-container" style="position: fixed;bottom: 0;right: 20%;left: 20%;height: 100%;border: 1px solid black; border-top:0; border-bottom: 0;"></div>
+<div id="widget-container" style="position: fixed;bottom: 0;width:100%;height: 100%;border: 1px solid black; border-top:0; border-bottom: 0;"></div>
 
 <div id="fade" class="black_overlay"></div>
 
-<div id="action-controls" style="width: 19%; padding: 1%;position: absolute;left:0;">
+<div id="action-controls" style="width: 19%; padding: 1%;position: absolute;left:0; display: none;">
     <video controls="" style="width: 105%;margin-left: -15px;margin-top: -23px; display: none;"></video>
 
     <h2>Select Tools</h2>
@@ -326,7 +326,7 @@ div#comments-popup {
     </section>
 </div>
 
-<div style="position: fixed; right: 0; width: 19%; padding: 1%;top:0; text-align: center;">
+<div style="right: 0; padding: 1%;top:0; text-align: center; display: none">
     <h1>Canvas Designer!</h1>
     <h2>
         <a href="https://github.com/muaz-khan/Canvas-Designer">This tool is Open-Sourced!</a>
@@ -343,7 +343,7 @@ div#comments-popup {
 
     <br><br><br>
 
-		<div style="text-align:cener;margin-top:15px;">
+		<div style="text-align:center;margin-top:15px;">
 			<p style="font-size:22px;color:red;">Ask Questions Here:</p>
 			<button id="btn-comments">Comments<br>Discussion</button>
 		</div>
@@ -386,22 +386,22 @@ designer.setTools({
     importMap: true,
     text: true,
     image: true,
-    pdf: true,
-    eraser: true,
-    line: true,
-    arrow: true,
-    dragSingle: true,
-    dragMultiple: true,
-    arc: true,
+    pdf: false,
+    eraser: false,
+    line: false,
+    arrow: false,
+    dragSingle: false,
+    dragMultiple: false,
+    arc: false,
     rectangle: true,
-    quadratic: true,
-    bezier: true,
-    marker: true,
-    zoom: false,
+    quadratic: false,
+    bezier: false,
+    marker: false,
+    zoom: true,
     lineWidth: true,
     colorsPicker: true,
-    extraOptions: true,
-    code: true,
+    extraOptions: false,
+    code: false,
     undo: true
 });
 
