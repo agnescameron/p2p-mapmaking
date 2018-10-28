@@ -159,7 +159,10 @@ window.addEventListener('load', function() {
                 };
                 image.style = 'position: absolute; top: -99999999999; left: -999999999;'
                 document.body.appendChild(image);
-                image.src = "https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/-122.4241,37.78,16,0,60/600x600?access_token=pk.eyJ1IjoiYWduZXNjYW1lcm9uIiwiYSI6ImNqaXlvc3l5czAyYXozcXRhYWc0N2ZrbXMifQ.LLPfK8JuqoZEPUsumOtZvA";
+                var mapWidth = document.getElementById("main-canvas").offsetWidth;
+                var mapHeight = document.getElementById("main-canvas").offsetHeight;
+                console.log("width and height are", mapWidth, mapHeight);
+                image.src = "https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/-122.4241,37.78,16,0,60/1280x" + mapHeight + "?access_token=pk.eyJ1IjoiYWduZXNjYW1lcm9uIiwiYSI6ImNqaXlvc3l5czAyYXozcXRhYWc0N2ZrbXMifQ.LLPfK8JuqoZEPUsumOtZvA";
             }
 
             if (this.id === 'pdf-icon') {
