@@ -1,4 +1,4 @@
-// Last time updated: 2018-10-28 8:03:49 PM UTC
+// Last time updated: 2018-10-29 2:24:10 PM UTC
 
 // _______________
 // Canvas-Designer
@@ -3004,7 +3004,7 @@
                     var mapWidth = document.getElementById("main-canvas").offsetWidth;
                     var mapHeight = document.getElementById("main-canvas").offsetHeight;
                     console.log("width and height are", mapWidth, mapHeight);
-                    image.src = "https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/-122.4241,37.78,16,0,60/1280x" + mapHeight + "?access_token=pk.eyJ1IjoiYWduZXNjYW1lcm9uIiwiYSI6ImNqaXlvc3l5czAyYXozcXRhYWc0N2ZrbXMifQ.LLPfK8JuqoZEPUsumOtZvA";
+                    image.src = "https://api.mapbox.com/styles/v1/mapbox/cj3kbeqzo00022smj7akz3o1e/static/-71.09026,42.36048,15.1,0,0/1000x" + mapHeight + "?access_token=pk.eyJ1IjoiYWduZXNjYW1lcm9uIiwiYSI6ImNqaXlvc3l5czAyYXozcXRhYWc0N2ZrbXMifQ.LLPfK8JuqoZEPUsumOtZvA";
                 }
 
                 if (this.id === 'pdf-icon') {

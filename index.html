@@ -10,169 +10,12 @@
 
 	<meta name="author" content="Muaz Khan">
 	<link rel="author" type="text/html" href="https://plus.google.com/+MuazKhan">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
 </head>
 <body>
 <script src="canvas-designer-widget.js"></script>
-
-<style>
-* {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -o-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-input[type=text] {
-    -webkit-user-select: initial;
-    -moz-user-select: initial;
-    -o-user-select: initial;
-    -ms-user-select: initial;
-    user-select: initial;
-}
-
-button, input {
-    font-family: Myriad, Arial, Verdana;
-    font-weight: normal;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-right-radius: 3px;
-    border-bottom-left-radius: 3px;
-    padding: 4px 12px;
-    text-decoration: none;
-    color: rgb(27, 26, 26);
-    display: inline-block;
-    box-shadow: rgb(255, 255, 255) 1px 1px 0px 0px inset;
-    text-shadow: none;
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0.05, rgb(241, 241, 241)), to(rgb(230, 230, 230)));
-    font-size: 20px;
-    border: 1px solid red;
-    outline:none;
-}
-button:hover, button:hover, input:focus {
-    background: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(5%, rgb(221, 221, 221)), to(rgb(250, 250, 250)));
-    border: 1px solid rgb(142, 142, 142);
-}
-button[disabled], input[disabled] {
-    background: rgb(249, 249, 249);
-    border: 1px solid rgb(218, 207, 207);
-    color: rgb(197, 189, 189);
-}
-
-input {
-    background: white;
-}
-
-.extra-controls {
-    position: fixed;
-    right: 2%;
-}
-
-#room-id {
-    width: 55%;
-    margin-right: 2px;
-}
-
-/* popup box */
-.black_overlay {
-    display: none;
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    width: 100%;
-    height: 100%;
-    background-color: black;
-    z-index:1001;
-    -moz-opacity: 0.8;
-    opacity:.80;
-    filter: alpha(opacity=80);
-}
-.white_content {
-    display: none;
-    position: absolute;
-    top: 30%;
-    left: 40%;
-    width: 16%;
-    height: 15%;
-    padding: 16px;
-    border: 10px solid rgb(9, 159, 243);
-    background-color: rgba(255, 255, 255, 0.94);
-    z-index:1002;
-    overflow: hidden;
-    border-radius: 5px;
-    min-width: 300px;
-    min-height: 120px;
-}
-
-.white_content hr {
-    border-top: 4px solid rgb(9, 159, 243);
-    margin: 9px -20px;
-}
-
-#btn-undo, #btn-close-undo-popup, #btn-close-dataURL-popup, #btn-close-comments-popup, #btn-getDataURL {
-    font-size: 1.2em;
-    padding: 2px 9px;
-}
-
-#btn-close-undo-popup, #btn-close-dataURL-popup, #btn-close-comments-popup {
-    padding: 0 6px;
-    border-radius: 50%;
-    padding-bottom: 1px;
-    color: red;
-}
-
-.white_content select {
-    font-size: 1.2em;
-    border: 1px solid;
-    padding: 0;
-    outline: none!important;
-    border: 1px solid black !important;
-    float: left;
-}
-.white_content select option {
-    padding: 2px 5px;
-    border-bottom: 1px solid black;
-}
-.white_content select option:last-child {
-    border-bottom: 0;
-}
-
-.white_content option:checked, .white_content option[selected] {
-    background-color: #06CDFF!important;
-    background:linear-gradient(#06CDFF, #06CDFF)!important;
-    color: white!important;
-}
-
-.white_content select[disabled] {
-    background-color: rgba(232, 229, 229, 0.17);
-    color: rgb(84, 82, 82);
-}
-
-div#comments-popup {
-    width: 100%;
-    left: 0;
-    top: 0;
-    height: 100%;
-    border: 0;
-    padding: 0;
-	border-radius: 0;
-    overflow: auto;
-}
-
-#btn-comments {
-	color: red;
-	margin-top: 5px;
-	font-size: 24px;
-	text-shadow: 1px 1px white;
-}
-
-#h2-close-popup {
-	background: yellow;
-	padding: 5px 10px;
-	border-bottom: 1px solid red;
-	margin: 0;
-	color: red;
-}
-</style>
 
 <div id="widget-container" style="position: fixed;bottom: 0;width:100%;height: 100%;border: 1px solid black; border-top:0; border-bottom: 0;"></div>
 
@@ -246,20 +89,6 @@ div#comments-popup {
     <label for="code">code</label><br><br>
 
     <hr>
-    <div>
-        Number of users connected with you: <b id="number-of-connected-users">0</b>
-
-        <br><br>
-
-        <div id="hide-on-datachannel-opened">
-            You can open a private WebRTC room to sync dashboard with private users.
-
-            <br><br>
-
-            <input type="text" id="room-id" placeholder="room-id">
-            <button id="open-room">Open</button>
-        </div>
-    </div>
 
     <hr>
     <h2>Shortcut Keys</h2>
@@ -273,7 +102,20 @@ div#comments-popup {
 
 <div class="extra-controls">
     <button id="export-as-image">Export as Image</button>
-    <button id="btn-display-undo-popup">Undo</button>
+    <div class="side-text">
+        Number of users connected with you: <b id="number-of-connected-users">0</b>
+
+        <br><br>
+
+        <div id="hide-on-datachannel-opened">
+            You can open a private WebRTC room to sync dashboard with private users.
+
+            <br><br>
+
+            <input type="text" id="room-id" placeholder="room-id">
+            <button id="open-room">Open</button>
+        </div>
+    </div>
 </div>
 
 <div id="light" class="white_content">
