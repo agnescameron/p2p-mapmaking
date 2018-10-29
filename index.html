@@ -226,8 +226,8 @@ designer.setSelected('pencil');
 designer.setTools({
     pencil: true,
     importMap: true,
-    text: true,
-    image: true,
+    text: false,
+    image: false,
     pdf: false,
     eraser: true,
     line: false,
@@ -235,12 +235,12 @@ designer.setTools({
     dragSingle: false,
     dragMultiple: false,
     arc: false,
-    rectangle: true,
+    rectangle: false,
     quadratic: false,
     bezier: false,
     marker: false,
-    zoom: true,
-    lineWidth: true,
+    zoom: false,
+    lineWidth: false,
     colorsPicker: true,
     extraOptions: false,
     code: false,
@@ -270,10 +270,10 @@ Array.prototype.slice.call(document.getElementById('action-controls').querySelec
 
 var undoOptions = document.getElementById('undo-options');
 
-document.getElementById('btn-display-undo-popup').onclick = function() {
-    document.getElementById('light').style.display = 'block';
-    document.getElementById('fade').style.display = 'block';
-};
+// document.getElementById('btn-display-undo-popup').onclick = function() {
+//     document.getElementById('light').style.display = 'block';
+//     document.getElementById('fade').style.display = 'block';
+// };
 
 var txtNumberOfShapesToUndo = document.getElementById('number-of-shapes-to-undo');
 txtNumberOfShapesToUndo.onkeyup = function() {
